@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS `signatures`;
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE users (
+	`id` int(11) AUTO_INCREMENT NOT NULL,
+	`timestamp` int(11) NOT NULL,
+	`name` varchar(128) NOT NULL,
+	`organization` varchar(128),
+	`public_key` blob,
+	`active` tinyint(1),
+	PRIMARY KEY (`id`),
+	UNIQUE KEY (`name`)
+) Engine=InnoDB;
+
+CREATE TABLE signatures (
+	`id` int(11) AUTO_INCREMENT NOT NULL,
+	`timestamp` int(11) NOT NULL,
+	`signer_id` int(11) NOT NULL,
+	`signee_id` int(11) NOT NULL,
+	`message` text NOT NULL,
+	`signature` blob,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`signer_id`) REFERENCES users(`id`)
+) Engine=InnoDB;
